@@ -6,7 +6,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3FRVWFLKY"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
 
   gtag('config', 'G-L3FRVWFLKY');
@@ -16,7 +16,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>PTSP Mahkamah Syar'iyah Banda Aceh</title>
-  <meta name="description" content="">
+  <meta name="description" content="Halaman Website PTSP Online Mahkamah Syar'iyah Banda Aceh">
   <meta name="keywords" content="">
 
   <!-- Favicons -->
@@ -57,7 +57,7 @@
     <div class="branding d-flex align-items-center">
 
       <div class="container position-relative d-flex align-items-center justify-content-end">
-        <a href="#" class="logo d-flex align-items-center me-auto">
+        <a href="#" class="logo d-flex align-items-center me-auto" aria-label="Landing Page PTSP Online MS Banda Aceh">
           <img src="<?= base_url() ?>assets/img/logo/logo-ms-bna.webp" alt="">PTSP Daring
           <!-- Uncomment the line below if you also wish to use a text logo -->
           <!-- <h1 class="sitename">Medicio</h1>  -->
@@ -65,46 +65,52 @@
 
         <nav id="navmenu" class="navmenu">
           <ul>
-            <li><a href="#hero" class="active">Beranda</a></li>
-            <li><a href="#about">Tentang Kami</a></li>
-            <li class="dropdown"><a><span>Layanan</span><i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <li><a href="#hero" class="active" aria-label="Halaman Beranda PTSP Online">Beranda</a></li>
+            <li><a href="#about" aria-label="Halaman Tentang PTSP Online">Tentang Kami</a></li>
+            <li class="dropdown"><a href="#"><span>Layanan</span><i class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
-                <li class="dropdown"><a><span>Layanan Informasi</span><i
+                <li class="dropdown">
+                  <a href="#" aria-label="Daftar Layanan Informasi PTSP Online"><span>Layanan Informasi</span><i
                       class="bi bi-chevron-down toggle-dropdown"></i></a>
                   <ul>
-                    <li><a target="_blank"
+                    <li><a target="_blank" aria-label="Layanan Informasi via Whatsapp Chat"
                         href="https://wa.me/6282274448844?text=Assalamualaikum.%20Saya%20Menghubungi%20Melalui%20PTSP%20Online%20dan%20Ingin%20Bertanya.">Chat
                         Center</a></li>
-                    <li><a target="_blank"
+                    <li><a target="_blank" aria-label="Layanan Informasi via Whatsapp Voice Call"
                         href="https://wa.me/6282274448844?text=Assalamualaikum.%20Saya%20Menghubungi%20Melalui%20PTSP%20Online%20dan%20Ingin%20Melakukan%20Panggilan%20Telepon.">Call
                         Center</a></li>
-                    <li><a target="_blank"
+                    <li><a target="_blank" aria-label="Layanan Informasi via Whatsapp Video Call"
                         href="https://wa.me/6282274448844?text=Assalamualaikum.%20Saya%20Menghubungi%20Melalui%20PTSP%20Online%20dan%20Ingin%20Melakukan%20Panggilan%20Video.">Video
                         Call</a></li>
-                    <li><a target="_blank"
+                    <li><a target="_blank" aria-label="Brosur Layanan Informasi"
                         href="https://drive.google.com/file/d/1AphoriejBSnaxY2fstOsT3djpPUUN7cp/view?usp=drive_link">Brosur
                         Elektronik</a></li>
                   </ul>
                 </li>
-                <li><a target="_blank" href="https://sipp.ms-bandaaceh.go.id">Informasi Perkara</a></li>
-                <li><a target="_blank"
+                <li><a target="_blank" aria-label="Layanan Informasi Perkara"
+                    href="https://sipp.ms-bandaaceh.go.id">Informasi Perkara</a></li>
+                <li><a target="_blank" aria-label="Survei Kepuasan Masyarakat"
                     href="https://survei.badilag.net/home/index/a8af570c044327c0386e4d7523a957bf/sld">Survei Kepuasan
                     Pelayanan</a></li>
-                <li><a target="_blank"
+                <li><a target="_blank" aria-label="Layanan CCTV Online Badilag"
                     href="https://cctv.badilag.net/display/satker/a843d51114cba7140c8eca13ded74b51">CCTV Online</a></li>
-                <li><a target="_blank" href="ac">Informasi Akta Cerai</a></li>
-                <li><a target="_blank" href="panjar">Pengembalian Sisa Panjar</a></li>
-                <li><a target="_blank" href="ecourt">Permohonan Pengguna Ecourt</a></li>
-                <li><a target="_blank" href="antrian">Monitoring Antrian Sidang</a></li>
+                <li><a target="_blank" href="ac" aria-label="Layanan Informasi dan Validasi Akta Cerai">Informasi Akta
+                    Cerai</a></li>
+                <li><a target="_blank" href="panjar" aria-label="Layanan Transfer Sisa Panjar">Pengembalian Sisa
+                    Panjar</a></li>
+                <li><a target="_blank" href="ecourt" aria-label="Layanan Pendaftaran Pengguna E-Court">Permohonan
+                    Pengguna Ecourt</a></li>
+                <li><a target="_blank" href="antrian" aria-label="Layanan Monitoring Antrian Sidang">Monitoring Antrian
+                    Sidang</a></li>
               </ul>
             </li>
-            <li><a href="#contact">Hubungi</a></li>
+            <li><a href="#contact" aria-label="Halaman Kontak PTSP Online">Hubungi</a></li>
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <a class="cta-btn" href="https://ms-bandaaceh.go.id/" target="_blank"
-          title="Halaman Website MS Banda Aceh">Mahkamah Syar'iyah Banda Aceh</a>
+        <a class="cta-btn" href="https://ms-bandaaceh.go.id/" target="_blank" title="Halaman Website MS Banda Aceh"
+          aria-label="Halaman Website MS Banda Aceh">Mahkamah Syar'iyah Banda Aceh</a>
 
       </div>
 
@@ -117,10 +123,9 @@
     <!-- Hero Section -->
     <section id="hero" class="hero section">
 
-      <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
-
-      <div class="carousel-item active">
-          <img src="assets/img/ptsp.jpg" alt="">
+      <div id="hero-carousel" class="carousel slide carousel-fade">
+        <div class="carousel-item">
+          <img src="assets/img/ptsp.webp" alt="">
           <div class="container">
             <h2>SELAMAT DATANG DI</h2>
             <h3>MAHKAMAH SYAR'IYAH BANDA ACEH</h3>
@@ -144,8 +149,9 @@
 
         <div class="row gy-4">
           <div class="col-lg-6 position-relative align-self-start" data-aos="fade-up" data-aos-delay="100">
-            <img src="<?= base_url() ?>assets/img/ptsp-officer.jpg" class="img-fluid" alt="">
-            <a href="https://www.youtube.com/watch?v=1n4Gm34VNqw" class="glightbox pulsating-play-btn"></a>
+            <img src="<?= base_url() ?>assets/img/ptsp-officer.webp" class="img-fluid" alt="">
+            <a href="https://www.youtube.com/watch?v=1n4Gm34VNqw" aria-label="Video Pengenalan PTSP MS Banda Aceh"
+              class="glightbox pulsating-play-btn"></a>
           </div>
           <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="200">
             <h3>PTSP Daring</h3>
@@ -190,7 +196,7 @@
               <div class="icon">
                 <i class="fas fa-comments"></i>
               </div>
-              <a target="_blank"
+              <a target="_blank" aria-label="Layanan Informasi via Whatsapp Chat"
                 href="https://wa.me/6282274448844?text=Assalamualaikum.%20Saya%20Menghubungi%20Melalui%20PTSP%20Online%20dan%20Ingin%20Bertanya."
                 class="stretched-link">
                 <h3>Chat Center</h3>
@@ -204,7 +210,7 @@
               <div class="icon">
                 <i class="fas fa-phone"></i>
               </div>
-              <a target="_blank"
+              <a target="_blank" aria-label="Layanan Informasi via Whatsapp VOice Call"
                 href="https://wa.me/6282274448844?text=Assalamualaikum.%20Saya%20Menghubungi%20Melalui%20PTSP%20Online%20dan%20Ingin%20Melakukan%20Panggilan%20Telepon."
                 class="stretched-link">
                 <h3>Call Center</h3>
@@ -218,7 +224,7 @@
               <div class="icon">
                 <i class="fas fa-video"></i>
               </div>
-              <a target="_blank"
+              <a target="_blank" aria-label="Layanan Informasi via Whatsapp Video Call"
                 href="https://wa.me/6282274448844?text=Assalamualaikum.%20Saya%20Menghubungi%20Melalui%20PTSP%20Online%20dan%20Ingin%20Melakukan%20Panggilan%20Video."
                 class="stretched-link">
                 <h3>Video Call</h3>
@@ -232,7 +238,8 @@
               <div class="icon">
                 <i class="fas fa-window-restore"></i>
               </div>
-              <a href="https://sipp.ms-bandaaceh.go.id" target="_blank" class="stretched-link">
+              <a href="https://sipp.ms-bandaaceh.go.id" aria-label="Layanan Informasi Perkara" target="_blank"
+                class="stretched-link">
                 <h3>Website SIPP</h3>
               </a>
               <p>Website Sistem Informasi Penelusuran Perkara</p>
@@ -244,8 +251,8 @@
               <div class="icon">
                 <i class="fas fa-square-poll-vertical"></i>
               </div>
-              <a href="https://survei.badilag.net/home/index/a8af570c044327c0386e4d7523a957bf/sld" target="_blank"
-                class="stretched-link">
+              <a href="https://survei.badilag.net/home/index/a8af570c044327c0386e4d7523a957bf/sld"
+                aria-label="Layanan Survei Kepuasan Masyarakat" target="_blank" class="stretched-link">
                 <h3>SURVELAG</h3>
               </a>
               <p>Layanan Survei Mahkamah Syar'iyah Banda Aceh </p>
@@ -258,7 +265,7 @@
                 <i class="fas fa-file-pdf"></i>
               </div>
               <a href="https://drive.google.com/file/d/1AphoriejBSnaxY2fstOsT3djpPUUN7cp/view?usp=drive_link"
-                target="_blank" class="stretched-link">
+                aria-label="Brosur Layanan Informasi" target="_blank" class="stretched-link">
                 <h3>Brosur</h3>
               </a>
               <p>Kumpulan Brosur Informasi Berperkara</p>
@@ -270,8 +277,8 @@
               <div class="icon">
                 <i class="fas fa-video"></i>
               </div>
-              <a href="https://cctv.badilag.net/display/satker/a843d51114cba7140c8eca13ded74b51" target="_blank"
-                class="stretched-link">
+              <a href="https://cctv.badilag.net/display/satker/a843d51114cba7140c8eca13ded74b51"
+                aria-label="Layanan CCTV Online" target="_blank" class="stretched-link">
                 <h3>CCTV Online</h3>
               </a>
               <p>Anda dapat memantau situasi ruang tunggu sidang dan PTSP di Mahkamah Syar'iyah Banda Aceh melalui akses
@@ -284,7 +291,7 @@
               <div class="icon">
                 <i class="fas fa-file-signature"></i>
               </div>
-              <a href="ac" class="stretched-link">
+              <a href="ac" class="stretched-link" aria-label="Layanan Informasi dan Validasi Akta Cerai">
                 <h3>Akta Cerai</h3>
               </a>
               <p>Sistem Informasi Akta Cerai</p>
@@ -296,7 +303,7 @@
               <div class="icon">
                 <i class="fas fa-coins"></i>
               </div>
-              <a href="panjar" class="stretched-link">
+              <a href="panjar" class="stretched-link" aria-label="Layanan Transfer Sisa Panjar">
                 <h3>Sisa Panjar Elektronik</h3>
               </a>
               <p>Layanan Pengembalian Sisa Penjar secara Elektronik</p>
@@ -308,7 +315,7 @@
               <div class="icon">
                 <i class="fas fa-user"></i>
               </div>
-              <a href="ecourt" class="stretched-link">
+              <a href="ecourt" class="stretched-link" aria-label="Layanan Pendaftaran Pengguna E-Court">
                 <h3>Permohonan Pengguna Ecourt</h3>
               </a>
               <p>Layanan Permohonan Pendaftaran Pengguna Ecourt Bagi Perorangan, Instansi Pemerintah, Badan Hukum, dan
@@ -321,7 +328,7 @@
               <div class="icon">
                 <i class="fas fa-people-line"></i>
               </div>
-              <a href="antrian" class="stretched-link">
+              <a href="antrian" class="stretched-link" aria-label="Layanan Monitoring Antrian Sidang">
                 <h3>Monitoring Antrian Sidang</h3>
               </a>
               <p>Layanan Monitoring Antrian Sidang <em>Realtime</em> ditampilkan secara daring, sehingga pihak dapat
@@ -407,7 +414,7 @@
         </div>
         <div class="col-lg-8 col-md-6 footer-about">
           <div class="mb-5" data-aos="fade-up" data-aos-delay="200">
-            <iframe style="border:0; width: 100%; height: 370px;"
+            <iframe style="border:0; width: 100%; height: 370px;" title="frameLokasiKantor"
               src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=Mahkamah Syar'iyah Banda Aceh&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
               frameborder="0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div><!-- End Google Maps -->
