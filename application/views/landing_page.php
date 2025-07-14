@@ -124,7 +124,7 @@
     <section id="hero" class="hero section">
 
       <div id="hero-carousel" class="carousel slide carousel-fade">
-        <div class="carousel-item">
+        <div class="carousel-item active">
           <img src="assets/img/ptsp.webp" alt="">
           <div class="container">
             <h2>SELAMAT DATANG DI</h2>
