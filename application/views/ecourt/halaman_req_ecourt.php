@@ -336,7 +336,7 @@
                                 <div class="form-group">
                                     <div class="text-center">
                                         <div class="g-recaptcha"
-                                            data-sitekey="<?= $this->config->item('g_site_key')?>"></div>
+                                            data-sitekey="6LcDRnMrAAAAAPYZEykwgzWgbffAe4LsO56EMHPV"></div>
                                     </div>
                                 </div>
 

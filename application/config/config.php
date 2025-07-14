@@ -26,8 +26,7 @@ date_default_timezone_set('Asia/Jakarta');
 |
 */
 $config['base_url'] = 'https://' .$_SERVER['SERVER_NAME'].'/';
-$config['g_site_key'] = getenv('GSITE_KEY');
-$config['g_secret'] = getenv('GSECRET');
+$config['g_secret'] = '6LcDRnMrAAAAAP-l6nxYmPojh5vhb_BMckBDFDiS';
 
 /*
 |--------------------------------------------------------------------------
