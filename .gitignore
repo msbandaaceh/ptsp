@@ -18,6 +18,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /assets/vendor/
 /assets/dokumen/
 /ptsp.sql
+/vendor/
 
 # IDE Files
 #-------------------------
