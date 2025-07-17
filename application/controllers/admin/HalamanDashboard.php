@@ -376,7 +376,7 @@ class HalamanDashboard extends CI_Controller
 
 		return;
 	}
-	
+
 	public function proses_ecourt()
 	{
 		$jenis_proses = $this->input->post('jenis');
@@ -438,8 +438,8 @@ class HalamanDashboard extends CI_Controller
 				$pesan = "Assalamu'alaikum Wr. Wb.\n";
 				$pesan .= "Yth. " . $nama . ", Permohonan Pendaftaran Pengguna E-Court Anda Dengan Nomor Perkara Sudah Diproses.\n";
 				$pesan .= "Silakan login ke aplikasi Ecourt Mahkamah Agung di alamat https://ecourt.mahkamahagung.go.id/login dengan menggunakan :\n";
-				$pesan .= "*Username* : ".$email."\n";
-				$pesan .= "*Password* : ".$password."\n";
+				$pesan .= "*Username* : " . $email . "\n";
+				$pesan .= "*Password* : " . $password . "\n";
 				$pesan .= "Terima Kasih telah menggunakan Layanan Pendaftaran Pengguna E-Ecourt MS Banda Aceh";
 			} elseif ($jenis_proses == 2) {
 				$pesan = "Assalamu'alaikum Wr. Wb.\n";
@@ -661,5 +661,150 @@ class HalamanDashboard extends CI_Controller
 			$this->session->set_flashdata('pesan_gagal', 'Data Pengguna Gagal di hapus');
 			redirect('manage_users');
 		}
+	}
+
+	##########################################
+	#										 #
+	#	   SEMUA FUNGSI PETUGAS LAYANAN	 	 #
+	#										 #
+	##########################################
+
+	public function petugas()
+	{
+		$data['petugas'] = $this->admin->all_petugas_data();
+		$this->load->view('admin/header');
+		$this->load->view('admin/list_petugas', $data);
+	}
+
+	public function modal_petugas()
+	{
+		$id = $this->encrypt->decode(base64_decode($this->input->post('id')));
+
+		$nama = "";
+		$jabatan = "";
+		$foto = "";
+
+		if ($id == '-1') {
+			$id = '';
+			$judul = "TAMBAH DATA PETUGAS";
+		} else {
+			$judul = "EDIT DATA PETUGAS";
+			$query = $this->admin->get_seleksi('data_petugas', 'id', $id);
+			$nama = $query->row()->nama;
+			$jabatan = $query->row()->jabatan;
+			$foto = $query->row()->foto;
+		}
+
+		echo json_encode(
+			array(
+				'st' => 1,
+				'judul' => $judul,
+				'nama' => $nama,
+				'id' => $id,
+				'jabatan' => $jabatan,
+				'foto' => $foto
+			)
+		);
+		return;
+	}
+
+	public function simpan_petugas()
+	{
+
+		$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
+		$this->form_validation->set_rules('jabatan', 'Jabatan Petugas', 'trim|required');
+
+		$this->form_validation->set_message(['required' => '%s Tidak Boleh Kosong']);
+
+		if ($this->form_validation->run() == FALSE) {
+			//echo json_encode(array('st' => 0, 'msg' => 'Tidak Berhasil:<br/>'.validation_errors()));
+			$this->session->set_flashdata('info', '3');
+			$this->session->set_flashdata('pesan_gagal', validation_errors());
+			redirect('list_petugas');
+			return;
+		}
+
+		$id = $this->input->post('id');
+		$nama = $this->input->post('nama');
+		$jabatan = $this->input->post('jabatan');
+
+		if (!empty($_FILES['foto']['name'])) {
+			$max_size = 5000 * 1024;
+			if ($_FILES['foto']['size'] > $max_size) {
+				$this->session->set_flashdata('info', '3');
+				$this->session->set_flashdata('pesan_gagal', 'Gagal simpan, file Foto terlalu besar (Maksimal 5MB)');
+				redirect('list_petugas');
+			} elseif ($_FILES['foto']['type'] != 'image/png') {
+				$this->session->set_flashdata('info', '3');
+				$this->session->set_flashdata('pesan_gagal', 'Gagal simpan Permohonan, file KTP harus png');
+				redirect('list_petugas');
+			} else {
+				$doc = time() . '-' . $_FILES["foto"]['name'];
+				$config = array(
+					'upload_path' => './assets/foto/petugas/',
+					'allowed_types' => "png",
+					'file_ext_tolower' => TRUE,
+					'file_name' => $doc,
+					'overwrite' => TRUE,
+					'remove_spaces' => TRUE,
+					'max_size' => "5000"
+				);
+
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+
+				if (!$this->upload->do_upload('foto')) {
+					$error = $this->upload->display_errors();
+					$this->session->set_flashdata('info', '3');
+					$this->session->set_flashdata('pesan_gagal', 'Gagal upload file: ' . $error);
+					redirect('list_petugas');
+				} else {
+					$upload_data = $this->upload->data();
+				}
+			}
+		} else {
+			if (!$this->input->post('id')) {
+				$this->session->set_flashdata('info', '3');
+				$this->session->set_flashdata('pesan_gagal', 'Gagal simpan, file Foto tidak boleh kosong');
+				redirect('list_petugas');
+			}
+		}
+
+		if ($id) {
+
+		} else {
+			$data = array(
+				'nama' => $nama,
+				'jabatan' => $jabatan,
+				'foto' => $upload_data['file_name'],
+				'created_by' => $this->session->userdata('fullname'),
+				'created_on' => date('Y-m-d H:i:s')
+			);
+
+			#die(var_dump($data));
+
+			$querySimpan = $this->admin->simpan_data('data_petugas', $data);
+		}
+
+		if ($querySimpan == 1) {
+			$this->session->set_flashdata('info', '1');
+			if ($id) {
+				$this->session->set_flashdata('pesan_sukses', 'Petugas Berhasil di Perbarui');
+			} else {
+				$this->session->set_flashdata('pesan_sukses', 'Petugas Baru Berhasil di Tambahkan');
+			}
+			redirect('list_petugas');
+		} else {
+			$this->session->set_flashdata('info', '3');
+			$this->session->set_flashdata('pesan_gagal', 'Gagal Simpan, ' . $querySimpan);
+			redirect('list_petugas');
+		}
+	}
+
+	public function nilai_petugas() {
+		$data['total_responden'] = count($this->admin->all_nilai_petugas(date('Y'))); 
+		$data['petugas'] = $this->admin->nilai_petugas();
+		$this->load->view('admin/header');
+		$this->load->view('admin/list_nilai_petugas', $data);
 	}
 }

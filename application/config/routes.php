@@ -53,3 +53,9 @@ $route['proses_panjar'] = 'admin/HalamanDashboard/proses_panjar';
 $route['val_ecourt'] = 'admin/HalamanDashboard/e_court';
 $route['modal_ecourt'] = 'admin/HalamanDashboard/modal_ecourt';
 $route['proses_ecourt'] = 'admin/HalamanDashboard/proses_ecourt';
+
+# Petugas Layanan
+$route['list_petugas'] = 'admin/HalamanDashboard/petugas';
+$route['modal_petugas'] = 'admin/HalamanDashboard/modal_petugas';
+$route['simpan_petugas'] = 'admin/HalamanDashboard/simpan_petugas';
+$route['nilai_petugas'] = 'admin/HalamanDashboard/nilai_petugas';

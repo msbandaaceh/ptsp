@@ -48,6 +48,29 @@ class ModelAdmin extends CI_Model
 		return $this->db->select('*')->from('v_users')->where('role > 0')->get()->result();
 	}
 
+	public function all_petugas_data()
+	{
+		$this->db->order_by('aktif', 'DESC');
+		$this->db->order_by('id', 'ASC');
+		return $this->db->select('*')->from('data_petugas')->where('aktif', '1')->get()->result();
+	}
+
+	public function all_nilai_petugas($tahun)
+	{
+		$this->db->order_by('id', 'ASC');
+		return $this->db->select('*')->from('v_nilai_petugas')->where('tgl_nilai LIKE "%'.$tahun.'%"')->get()->result();
+	}
+
+	public function nilai_petugas()
+	{
+		$this->db->select('petugas_id, nama, foto,
+        ROUND(AVG(skor_ramah),2) as rata_keramahan,
+        ROUND(AVG(skor_puas),2) as rata_kepuasan,
+        ROUND((AVG(skor_ramah) + AVG(skor_puas)) / 2,2) as total_skor');
+		$this->db->group_by('petugas_id');
+		return $this->db->get('v_nilai_petugas')->result();
+	}
+
 	public function all_panjar_data()
 	{
 		$this->db->order_by('status', 'ASC');
@@ -71,13 +94,15 @@ class ModelAdmin extends CI_Model
 		return $this->db->select('*')->from('v_e_panjar')->get()->result();
 	}
 
-	public function all_produk_data() {
+	public function all_produk_data()
+	{
 		$this->db->order_by('status', 'ASC');
 		$this->db->order_by('id', 'ASC');
 		return $this->db->select('*')->from('v_produk')->get()->result();
 	}
 
-	public function all_ecourt_data() {
+	public function all_ecourt_data()
+	{
 		$this->db->order_by('status', 'ASC');
 		$this->db->order_by('id', 'ASC');
 		return $this->db->select('*')->from('data_ecourt')->get()->result();
@@ -100,15 +125,15 @@ class ModelAdmin extends CI_Model
 	}
 
 	public function pilih_role()
-    {
-        try {
-            $this->db->order_by('id', 'ASC');
+	{
+		try {
+			$this->db->order_by('id', 'ASC');
 			$this->db->where('id > 0');
-            return $this->db->get('ref_role');
-        } catch (Exception $e) {
-            return $e;
-        }
-    }
+			return $this->db->get('ref_role');
+		} catch (Exception $e) {
+			return $e;
+		}
+	}
 
 	public function pegawai_data($id)
 	{
@@ -289,12 +314,12 @@ class ModelAdmin extends CI_Model
 	}
 
 	public function get_konfigurasi($id)
-    {
-        try {
-            $this->db->where('id', $id);
-            return $this->db->get('sys_config');
-        } catch (Exception $e) {
-            return 0;
-        }
-    }
+	{
+		try {
+			$this->db->where('id', $id);
+			return $this->db->get('sys_config');
+		} catch (Exception $e) {
+			return 0;
+		}
+	}
 }

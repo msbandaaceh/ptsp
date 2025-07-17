@@ -11,6 +11,7 @@
     <link rel="shortcut icon" href="assets/img/logo/logo-ms-bna.webp">
 
     <link rel="stylesheet" href="assets/vendor/morris/morris.css">
+    <link href="assets/plugins/c3/c3.min.css" rel="stylesheet" type="text/css" />
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
@@ -22,6 +23,7 @@
     <!-- DataTables -->
     <link href="assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/vendor/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/vendor/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css">
 
     <link href="assets/vendor/bootstrap-md-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
 </head>
@@ -45,9 +47,6 @@
                     </a>
 
                 </div>
-
-                <!-- End Logo container-->
-
 
                 <div class="menu-extras topbar-custom">
                     <ul class="navbar-right d-flex list-inline float-right mb-0">
@@ -83,9 +82,7 @@
                     </ul>
                 </div>
                 <!-- end menu-extras -->
-
                 <div class="clearfix"></div>
-
             </div> <!-- end container -->
         </div>
         <!-- end topbar-main -->
@@ -101,23 +98,39 @@
                         </li>
                         <?php if ($this->session->userdata('role') != '0') {
                             if (in_array($this->session->userdata('role'), ['1', '2'])) { ?>
-                                <li class="has-submenu">
+                                <li class="submenu">
                                     <a href="val_produk"><i class="mdi mdi-buffer"></i>Produk Pengadilan</a>
                                 </li>
                             <?php }
                             if (in_array($this->session->userdata('role'), ['1', '3'])) { ?>
-                                <li class="has-submenu">
+                                <li class="submenu">
                                     <a href="val_psp"><i class="mdi mdi-black-mesa"></i>Sisa Panjar</a>
                                 </li>
                             <?php }
                             if (in_array($this->session->userdata('role'), ['1', '4'])) { ?>
-                                <li class="has-submenu">
+                                <li class="submenu">
                                     <a href="val_ecourt"><i class="mdi mdi-account-card-details"></i>Pendaftaran User Ecourt</a>
                                 </li>
                             <?php }
+                            if (in_array($this->session->userdata('role'), ['1'])) { ?>
+                                <li class="has-submenu">
+                                    <a href="#"><i class="mdi mdi-clipboard"></i>Angket Petugas Layanan</a>
+                                    <ul class="submenu">
+                                        <li><a href="list_petugas">Daftar Petugas</a></li>
+                                        <li><a href="nilai_petugas">Daftar Penilaian</a></li>
+                                    </ul>
+                                </li>
+                            <?php }
                         } else { ?>
-                            <li class="has-submenu">
+                            <li class="submenu">
                                 <a href="manage_users"><i class="mdi mdi-clipboard"></i>Manajemen User</a>
+                            </li>
+                            <li class="has-submenu">
+                                <a href="#"><i class="mdi mdi-clipboard"></i>Petugas Layanan</a>
+                                <ul class="submenu">
+                                    <li><a href="list_petugas">Daftar Petugas</a></li>
+                                    <li><a href="nilai_petugas">Daftar Penilaian</a></li>
+                                </ul>
                             </li>
                         <?php } ?>
                     </ul>

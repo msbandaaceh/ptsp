@@ -203,6 +203,32 @@ function BukaModal(id) {
     });
 }
 
+function BukaModalPetugas(id) {
+    $.post('modal_petugas', {
+        id: id
+    }, function (response) {
+        var json = jQuery.parseJSON(response);
+        if (json.st == 1) {
+            $("#title").html("");
+            $("#id_").val('');
+            $("#nama_").val('');
+            $('#jabatan_').val('');
+
+            $("#title").append(json.judul);
+            $("#id_").val(json.id);
+            $("#nama_").val(json.nama);
+            $('#jabatan_').val(json.jabatan); 
+            
+            const preview = document.getElementById('uploadedAvatar');
+            if (json.foto) {
+                preview.src = 'assets/foto/petugas/' + json.foto;
+            } else {
+                preview.src = 'assets/img/1.png';
+            }
+        }
+    });
+}
+
 function BukaModalProsesPanjar(id) {
     $('#form_proses_panjar').hide();
     $('#btnSimpan').show();
