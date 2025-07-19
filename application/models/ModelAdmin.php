@@ -55,20 +55,229 @@ class ModelAdmin extends CI_Model
 		return $this->db->select('*')->from('data_petugas')->where('aktif', '1')->get()->result();
 	}
 
-	public function all_nilai_petugas($tahun)
+	public function all_nilai_petugas_periode($data)
 	{
-		$this->db->order_by('id', 'ASC');
-		return $this->db->select('*')->from('v_nilai_petugas')->where('tgl_nilai LIKE "%'.$tahun.'%"')->get()->result();
+		$jenis = $data['jenis'];
+		
+		if ($jenis == '0') {
+			$this->db->where('YEAR(tgl_nilai)', date('Y'));
+		} elseif ($jenis == '1') {
+			$tahun = $data['data_nilai']['tahun'];
+			$triwulan = $data['data_nilai']['triwulan'];
+
+			switch ($triwulan) {
+				case '1':
+					$tgl_awal = $tahun . '-01-01';
+					$tgl_akhir = $tahun . '-03-31';
+					break;
+				case '2':
+					$tgl_awal = $tahun . '-04-01';
+					$tgl_akhir = $tahun . '-06-30';
+					break;
+				case '3':
+					$tgl_awal = $tahun . '-07-01';
+					$tgl_akhir = $tahun . '-09-30';
+					break;
+				case '4':
+					$tgl_awal = $tahun . '-10-01';
+					$tgl_akhir = $tahun . '-12-31';
+					break;
+			}
+			$this->db->where('DATE(tgl_nilai) <= "' . $tgl_akhir . '"');
+			$this->db->where('DATE(tgl_nilai) >= "' . $tgl_awal . '"');
+		} else {
+			$tgl_awal = $data['data_nilai']['tgl_awal'];
+			$tgl_akhir = $data['data_nilai']['tgl_akhir'];
+
+			$this->db->where('DATE(tgl_nilai) <= "' . $tgl_akhir . '"');
+			$this->db->where('DATE(tgl_nilai) >= "' . $tgl_awal . '"');
+		}
+		return $this->db->select('*')->from('v_nilai_petugas')->get()->result();
 	}
 
-	public function nilai_petugas()
+	public function nilai_petugas_periode($data)
 	{
+		$jenis = $data['jenis'];
 		$this->db->select('petugas_id, nama, foto,
-        ROUND(AVG(skor_ramah),2) as rata_keramahan,
-        ROUND(AVG(skor_puas),2) as rata_kepuasan,
-        ROUND((AVG(skor_ramah) + AVG(skor_puas)) / 2,2) as total_skor');
+        	ROUND(AVG(skor_ramah),2) as rata_keramahan,
+        	ROUND(AVG(skor_puas),2) as rata_kepuasan,
+        	ROUND((AVG(skor_ramah) + AVG(skor_puas)) / 2,2) as total_skor');
+
+		if ($jenis == '0') {
+			$this->db->where('YEAR(tgl_nilai)', date('Y'));
+		} elseif ($jenis == '1') {
+			$tahun = $data['data_nilai']['tahun'];
+			$triwulan = $data['data_nilai']['triwulan'];
+
+			switch ($triwulan) {
+				case '1':
+					$tgl_awal = $tahun . '-01-01';
+					$tgl_akhir = $tahun . '-03-31';
+					break;
+				case '2':
+					$tgl_awal = $tahun . '-04-01';
+					$tgl_akhir = $tahun . '-06-30';
+					break;
+				case '3':
+					$tgl_awal = $tahun . '-07-01';
+					$tgl_akhir = $tahun . '-09-30';
+					break;
+				case '4':
+					$tgl_awal = $tahun . '-10-01';
+					$tgl_akhir = $tahun . '-12-31';
+					break;
+			}
+			$this->db->where('DATE(tgl_nilai) <= "' . $tgl_akhir . '"');
+			$this->db->where('DATE(tgl_nilai) >= "' . $tgl_awal . '"');
+		} else {
+			$tgl_awal = $data['data_nilai']['tgl_awal'];
+			$tgl_akhir = $data['data_nilai']['tgl_akhir'];
+
+			$this->db->where('DATE(tgl_nilai) <= "' . $tgl_akhir . '"');
+			$this->db->where('DATE(tgl_nilai) >= "' . $tgl_awal . '"');
+		}
 		$this->db->group_by('petugas_id');
 		return $this->db->get('v_nilai_petugas')->result();
+	}
+
+	public function petugas_terbaik_periode($data)
+	{
+		$jenis = $data['jenis'];
+		$this->db->select('petugas_id, nama, foto,
+        	ROUND(AVG(skor_ramah),2) as rata_keramahan,
+        	ROUND(AVG(skor_puas),2) as rata_kepuasan,
+        	ROUND((AVG(skor_ramah) + AVG(skor_puas)) / 2,2) as total_skor');
+
+		if ($jenis == '0') {
+			$this->db->where('YEAR(tgl_nilai)', date('Y'));
+		} elseif ($jenis == '1') {
+			$tahun = $data['data_nilai']['tahun'];
+			$triwulan = $data['data_nilai']['triwulan'];
+
+			switch ($triwulan) {
+				case '1':
+					$tgl_awal = $tahun . '-01-01';
+					$tgl_akhir = $tahun . '-03-31';
+					break;
+				case '2':
+					$tgl_awal = $tahun . '-04-01';
+					$tgl_akhir = $tahun . '-06-30';
+					break;
+				case '3':
+					$tgl_awal = $tahun . '-07-01';
+					$tgl_akhir = $tahun . '-09-30';
+					break;
+				case '4':
+					$tgl_awal = $tahun . '-10-01';
+					$tgl_akhir = $tahun . '-12-31';
+					break;
+			}
+			$this->db->where('DATE(tgl_nilai) <= "' . $tgl_akhir . '"');
+			$this->db->where('DATE(tgl_nilai) >= "' . $tgl_awal . '"');
+		} else {
+			$tgl_awal = $data['data_nilai']['tgl_awal'];
+			$tgl_akhir = $data['data_nilai']['tgl_akhir'];
+
+			$this->db->where('DATE(tgl_nilai) <= "' . $tgl_akhir . '"');
+			$this->db->where('DATE(tgl_nilai) >= "' . $tgl_awal . '"');
+		}
+
+		$this->db->group_by('petugas_id');
+		$this->db->order_by('total_skor', 'DESC');
+		$this->db->limit('3');
+		return $this->db->get('v_nilai_petugas')->result();
+	}
+
+	public function ambil_tahun_survei()
+	{
+		$this->db->select('YEAR(tgl_nilai) as tahun');
+		$this->db->group_by('tahun');
+		$this->db->order_by('tahun', 'DESC');
+		return $this->db->get('v_nilai_petugas')->result();
+	}
+
+	public function nilai_keramahan_periode($data)
+	{
+		$jenis = $data['jenis'];
+		$this->db->select('ROUND(AVG(skor_ramah),2) as rata_keramahan');
+
+		if ($jenis == '0') {
+			$this->db->where('YEAR(tgl_nilai)', date('Y'));
+		} elseif ($jenis == '1') {
+			$tahun = $data['data_nilai']['tahun'];
+			$triwulan = $data['data_nilai']['triwulan'];
+
+			switch ($triwulan) {
+				case '1':
+					$tgl_awal = $tahun . '-01-01';
+					$tgl_akhir = $tahun . '-03-31';
+					break;
+				case '2':
+					$tgl_awal = $tahun . '-04-01';
+					$tgl_akhir = $tahun . '-06-30';
+					break;
+				case '3':
+					$tgl_awal = $tahun . '-07-01';
+					$tgl_akhir = $tahun . '-09-30';
+					break;
+				case '4':
+					$tgl_awal = $tahun . '-10-01';
+					$tgl_akhir = $tahun . '-12-31';
+					break;
+			}
+			$this->db->where('DATE(tgl_nilai) <= "' . $tgl_akhir . '"');
+			$this->db->where('DATE(tgl_nilai) >= "' . $tgl_awal . '"');
+		} else {
+			$tgl_awal = $data['data_nilai']['tgl_awal'];
+			$tgl_akhir = $data['data_nilai']['tgl_akhir'];
+
+			$this->db->where('DATE(tgl_nilai) <= "' . $tgl_akhir . '"');
+			$this->db->where('DATE(tgl_nilai) >= "' . $tgl_awal . '"');
+		}
+
+		return $this->db->get('v_nilai_petugas');
+	}
+
+	public function nilai_kepuasan_periode($data)
+	{
+		$jenis = $data['jenis'];
+		$this->db->select('ROUND(AVG(skor_puas),2) as rata_kepuasan');
+
+		if ($jenis == '0') {
+			$this->db->where('YEAR(tgl_nilai)', date('Y'));
+		} elseif ($jenis == '1') {
+			$tahun = $data['data_nilai']['tahun'];
+			$triwulan = $data['data_nilai']['triwulan'];
+
+			switch ($triwulan) {
+				case '1':
+					$tgl_awal = $tahun . '-01-01';
+					$tgl_akhir = $tahun . '-03-31';
+					break;
+				case '2':
+					$tgl_awal = $tahun . '-04-01';
+					$tgl_akhir = $tahun . '-06-30';
+					break;
+				case '3':
+					$tgl_awal = $tahun . '-07-01';
+					$tgl_akhir = $tahun . '-09-30';
+					break;
+				case '4':
+					$tgl_awal = $tahun . '-10-01';
+					$tgl_akhir = $tahun . '-12-31';
+					break;
+			}
+			$this->db->where('DATE(tgl_nilai) <= "' . $tgl_akhir . '"');
+			$this->db->where('DATE(tgl_nilai) >= "' . $tgl_awal . '"');
+		} else {
+			$tgl_awal = $data['data_nilai']['tgl_awal'];
+			$tgl_akhir = $data['data_nilai']['tgl_akhir'];
+
+			$this->db->where('DATE(tgl_nilai) <= "' . $tgl_akhir . '"');
+			$this->db->where('DATE(tgl_nilai) >= "' . $tgl_awal . '"');
+		}
+
+		return $this->db->get('v_nilai_petugas');
 	}
 
 	public function all_panjar_data()

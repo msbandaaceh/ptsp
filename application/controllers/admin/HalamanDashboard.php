@@ -801,10 +801,56 @@ class HalamanDashboard extends CI_Controller
 		}
 	}
 
-	public function nilai_petugas() {
-		$data['total_responden'] = count($this->admin->all_nilai_petugas(date('Y'))); 
-		$data['petugas'] = $this->admin->nilai_petugas();
+	public function nilai_petugas()
+	{
+		$tahun_periode = $this->admin->ambil_tahun_survei();
+
+		if (!$this->input->post('jenis_periode')) {
+			$data = [
+				'jenis' => '0'
+			];
+			
+			$periode = 'TAHUN ' . date('Y');
+		} else {
+			$jenis_periode = $this->input->post('jenis_periode');
+			if ($jenis_periode == '1') {
+				$tahun = $this->input->post('tahun_periode');
+				$triwulan = $this->input->post('triwulan');
+
+				$data = [
+					'jenis' => $jenis_periode,
+					'data_nilai' => [
+						'tahun' => $tahun,
+						'triwulan' => $triwulan
+					]
+				];
+
+				$periode = 'TRIWULAN ' . $triwulan . ' TAHUN ' . $tahun;
+			} else {
+				$tgl_awal = $this->input->post('tgl_awal');
+				$tgl_akhir = $this->input->post('tgl_akhir');
+
+				$data = [
+					'jenis' => $jenis_periode,
+					'data_nilai' => [
+						'tgl_awal' => $tgl_awal,
+						'tgl_akhir' => $tgl_akhir
+					]
+				];
+
+				$periode = $this->tanggalhelper->konversiTanggal($tgl_awal) . ' s/d ' . $this->tanggalhelper->konversiTanggal($tgl_akhir);
+			}
+		}
+
+		$nilai['total_responden'] = count($this->admin->all_nilai_petugas_periode($data));
+		$nilai['total_keramahan'] = $this->admin->nilai_keramahan_periode($data)->row()->rata_keramahan;
+		$nilai['total_kepuasan'] = $this->admin->nilai_kepuasan_periode($data)->row()->rata_kepuasan;
+		$nilai['petugas_terbaik'] = $this->admin->petugas_terbaik_periode($data);
+		$nilai['tahun_periode'] = $tahun_periode;
+		$nilai['periode'] = $periode;
+		$nilai['petugas'] = $this->admin->nilai_petugas_periode($data);
+		#die(var_dump($nilai));
 		$this->load->view('admin/header');
-		$this->load->view('admin/list_nilai_petugas', $data);
+		$this->load->view('admin/list_nilai_petugas', $nilai);
 	}
 }

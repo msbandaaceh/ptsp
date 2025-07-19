@@ -38,6 +38,48 @@
             });
         }
 
+        if (document.getElementById('tgl_awal')) {
+            $('#tgl_awal').bootstrapMaterialDatePicker({
+                locale: 'id', // Setel lokal ke bahasa Indonesia
+                format: 'dddd, DD MMMM YYYY', // Format lengkap
+                time: false,
+                date: true, // Aktifkan tanggal
+            });
+
+            // Event listener untuk mengisi input kedua (#date-sql) saat input pertama berubah
+            $('#tgl_awal').on('change', function () {
+                // Ambil nilai dari input pertama
+                let selectedDate = $(this).val();
+
+                // Konversi nilai ke format SQL (YYYY-MM-DD HH:mm:ss)
+                let sqlDate = moment(selectedDate, 'dddd DD MMMM YYYY').format('YYYY-MM-DD');
+
+                // Isi nilai ke input kedua (#date-sql)
+                $('#tgl_awal_kirim').val(sqlDate);
+            });
+        }
+
+        if (document.getElementById('tgl_akhir')) {
+            $('#tgl_akhir').bootstrapMaterialDatePicker({
+                locale: 'id', // Setel lokal ke bahasa Indonesia
+                format: 'dddd, DD MMMM YYYY', // Format lengkap
+                time: false,
+                date: true, // Aktifkan tanggal
+            });
+
+            // Event listener untuk mengisi input kedua (#date-sql) saat input pertama berubah
+            $('#tgl_akhir').on('change', function () {
+                // Ambil nilai dari input pertama
+                let selectedDate = $(this).val();
+
+                // Konversi nilai ke format SQL (YYYY-MM-DD HH:mm:ss)
+                let sqlDate = moment(selectedDate, 'dddd DD MMMM YYYY').format('YYYY-MM-DD');
+
+                // Isi nilai ke input kedua (#date-sql)
+                $('#tgl_akhir_kirim').val(sqlDate);
+            });
+        }
+
         $('.navigation-menu>li').slice(-2).addClass('last-elements');
 
         $('.navigation-menu li.has-submenu a[href="#"]').on('click', function (e) {
@@ -203,6 +245,21 @@ function BukaModal(id) {
     });
 }
 
+function gantiJenisPeriode() {
+    var nilai = document.getElementById('jenis_periode').value;
+    if (nilai == 1) {
+        $('#tahun_periode').show();
+        $('#triwulan').show();
+        $('#periode_tgl_awal').hide();
+        $('#periode_tgl_akhir').hide();
+    } else {
+        $('#tahun_periode').hide();
+        $('#triwulan').hide();
+        $('#periode_tgl_awal').show();
+        $('#periode_tgl_akhir').show();
+    }
+}
+
 function BukaModalPetugas(id) {
     $.post('modal_petugas', {
         id: id
@@ -217,8 +274,8 @@ function BukaModalPetugas(id) {
             $("#title").append(json.judul);
             $("#id_").val(json.id);
             $("#nama_").val(json.nama);
-            $('#jabatan_').val(json.jabatan); 
-            
+            $('#jabatan_').val(json.jabatan);
+
             const preview = document.getElementById('uploadedAvatar');
             if (json.foto) {
                 preview.src = 'assets/foto/petugas/' + json.foto;
