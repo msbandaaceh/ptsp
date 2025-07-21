@@ -728,51 +728,101 @@ class HalamanDashboard extends CI_Controller
 		$nama = $this->input->post('nama');
 		$jabatan = $this->input->post('jabatan');
 
-		if (!empty($_FILES['foto']['name'])) {
-			$max_size = 5000 * 1024;
-			if ($_FILES['foto']['size'] > $max_size) {
-				$this->session->set_flashdata('info', '3');
-				$this->session->set_flashdata('pesan_gagal', 'Gagal simpan, file Foto terlalu besar (Maksimal 5MB)');
-				redirect('list_petugas');
-			} elseif ($_FILES['foto']['type'] != 'image/png') {
-				$this->session->set_flashdata('info', '3');
-				$this->session->set_flashdata('pesan_gagal', 'Gagal simpan Permohonan, file KTP harus png');
-				redirect('list_petugas');
-			} else {
-				$doc = time() . '-' . $_FILES["foto"]['name'];
-				$config = array(
-					'upload_path' => './assets/foto/petugas/',
-					'allowed_types' => "png",
-					'file_ext_tolower' => TRUE,
-					'file_name' => $doc,
-					'overwrite' => TRUE,
-					'remove_spaces' => TRUE,
-					'max_size' => "5000"
-				);
+		if ($id) {
+			$data = array(
+				'nama' => $nama,
+				'jabatan' => $jabatan,
+				'modified_by' => $this->session->userdata('fullname'),
+				'modified_on' => date('Y-m-d H:i:s')
+			);
+			$getPetugas = $this->admin->get_seleksi('data_petugas', 'id', $id);
 
-				$this->load->library('upload', $config);
-				$this->upload->initialize($config);
+			if ($getPetugas->num_rows() > 0) {
+				if (!empty($_FILES['foto']['name'])) {
+					$max_size = 5000 * 1024;
+					if ($_FILES['foto']['size'] > $max_size) {
+						$this->session->set_flashdata('info', '3');
+						$this->session->set_flashdata('pesan_gagal', 'Gagal simpan, file Foto terlalu besar (Maksimal 5MB)');
+						redirect('list_petugas');
+					} elseif ($_FILES['foto']['type'] != 'image/png') {
+						$this->session->set_flashdata('info', '3');
+						$this->session->set_flashdata('pesan_gagal', 'Gagal simpan Permohonan, file KTP harus png');
+						redirect('list_petugas');
+					} else {
+						$doc = time() . '-' . $_FILES["foto"]['name'];
+						$config = array(
+							'upload_path' => './assets/foto/petugas/',
+							'allowed_types' => "png",
+							'file_ext_tolower' => TRUE,
+							'file_name' => $doc,
+							'overwrite' => TRUE,
+							'remove_spaces' => TRUE,
+							'max_size' => "5000"
+						);
 
-				if (!$this->upload->do_upload('foto')) {
-					$error = $this->upload->display_errors();
-					$this->session->set_flashdata('info', '3');
-					$this->session->set_flashdata('pesan_gagal', 'Gagal upload file: ' . $error);
-					redirect('list_petugas');
-				} else {
-					$upload_data = $this->upload->data();
+						$this->load->library('upload', $config);
+						$this->upload->initialize($config);
+
+						if (!$this->upload->do_upload('foto')) {
+							$error = $this->upload->display_errors();
+							$this->session->set_flashdata('info', '3');
+							$this->session->set_flashdata('pesan_gagal', 'Gagal upload file: ' . $error);
+							redirect('list_petugas');
+						} else {
+							$upload_data = $this->upload->data();
+						}
+					}
+
+					#$file_exist = 'assets/foto/petugas/' . $getPetugas->row()->foto;
+					#unlink($file_exist);
+					$file_upload = $upload_data['file_name'];
+
+					$data ['foto'] = $file_upload;
 				}
 			}
+
+			$querySimpan = $this->admin->pembaharuan_data('data_petugas', $data, 'id', $id);
 		} else {
-			if (!$this->input->post('id')) {
+			if (!empty($_FILES['foto']['name'])) {
+				$max_size = 5000 * 1024;
+				if ($_FILES['foto']['size'] > $max_size) {
+					$this->session->set_flashdata('info', '3');
+					$this->session->set_flashdata('pesan_gagal', 'Gagal simpan, file Foto terlalu besar (Maksimal 5MB)');
+					redirect('list_petugas');
+				} elseif ($_FILES['foto']['type'] != 'image/png') {
+					$this->session->set_flashdata('info', '3');
+					$this->session->set_flashdata('pesan_gagal', 'Gagal simpan Permohonan, file KTP harus png');
+					redirect('list_petugas');
+				} else {
+					$doc = time() . '-' . $_FILES["foto"]['name'];
+					$config = array(
+						'upload_path' => './assets/foto/petugas/',
+						'allowed_types' => "png",
+						'file_ext_tolower' => TRUE,
+						'file_name' => $doc,
+						'overwrite' => TRUE,
+						'remove_spaces' => TRUE,
+						'max_size' => "5000"
+					);
+
+					$this->load->library('upload', $config);
+					$this->upload->initialize($config);
+
+					if (!$this->upload->do_upload('foto')) {
+						$error = $this->upload->display_errors();
+						$this->session->set_flashdata('info', '3');
+						$this->session->set_flashdata('pesan_gagal', 'Gagal upload file: ' . $error);
+						redirect('list_petugas');
+					} else {
+						$upload_data = $this->upload->data();
+					}
+				}
+			} else {
 				$this->session->set_flashdata('info', '3');
 				$this->session->set_flashdata('pesan_gagal', 'Gagal simpan, file Foto tidak boleh kosong');
 				redirect('list_petugas');
 			}
-		}
 
-		if ($id) {
-
-		} else {
 			$data = array(
 				'nama' => $nama,
 				'jabatan' => $jabatan,
@@ -780,8 +830,6 @@ class HalamanDashboard extends CI_Controller
 				'created_by' => $this->session->userdata('fullname'),
 				'created_on' => date('Y-m-d H:i:s')
 			);
-
-			#die(var_dump($data));
 
 			$querySimpan = $this->admin->simpan_data('data_petugas', $data);
 		}
@@ -809,7 +857,7 @@ class HalamanDashboard extends CI_Controller
 			$data = [
 				'jenis' => '0'
 			];
-			
+
 			$periode = 'TAHUN ' . date('Y');
 		} else {
 			$jenis_periode = $this->input->post('jenis_periode');
