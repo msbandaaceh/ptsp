@@ -276,6 +276,33 @@ class HalamanDashboard extends CI_Controller
 		}
 	}
 
+	public function get_data_pihak($id)
+	{
+		// Pastikan hanya bisa diakses via AJAX
+		if (!$this->input->is_ajax_request()) {
+			show_404();
+		}
+
+		$id_decrypt = $this->encrypt->decode(base64_decode($id));
+		$query = $this->admin->get_seleksi('data_ecourt', 'id', $id_decrypt);
+		$jenis = $query->row()->jenisPihak;
+
+		switch ($jenis) {
+			case '1':
+				$this->load->view('admin/ecourt/perorangan');
+				break;
+			case '2':
+				$this->load->view('admin/ecourt/pemerintah');
+				break;
+			case '3':
+				$this->load->view('admin/ecourt/badan_hukum');
+				break;
+			default:
+				echo '<div class="alert alert-warning text-center">Jenis pihak tidak dikenal</div>';
+				break;
+		}
+	}
+
 	public function modal_ecourt()
 	{
 		$id = $this->encrypt->decode(base64_decode($this->input->post('id')));
@@ -286,92 +313,182 @@ class HalamanDashboard extends CI_Controller
 		$judul = "PROSES PERMOHONAN";
 		$query = $this->admin->get_seleksi('data_ecourt', 'id', $id);
 		$jenisPihak = $query->row()->jenisPihak;
-		if ($jenisPihak == 1) {
-			$jenisPihak = "Perorangan";
-			$nama = $query->row()->nama;
-			$nik = $query->row()->no_induk;
-			$tmp_lahir = $query->row()->tmp_lahir;
-			$tgl_lahir = $query->row()->tgl_lahir;
-			$jk = $query->row()->jk;
-			$alamat = $query->row()->alamat;
-			$agama = $query->row()->agama;
-			$kawin = $query->row()->kawin;
-			$pekerjaan = $query->row()->pekerjaan;
-			$bank = $query->row()->bank;
-			$no_rek = $query->row()->no_rek;
-			$nama_rek = $query->row()->nama_rek;
-			$telp = $query->row()->telp;
-			$no_hp = $query->row()->nohp;
-			$email = $query->row()->email;
-			$difabel = $query->row()->difabel;
-			$pendidikan = $query->row()->pendidikan;
-			$ktp = base_url() . 'assets/dokumen/ecourt/' . $query->row()->dokumen_1;
-		}
 
 		if ($jenis == 1) {
 			$stat = form_dropdown('status', $status, '', 'class="form-control" onChange="statusProses()" id="status"');
 
-			echo json_encode(
-				array(
-					'st' => 1,
-					'id' => $id,
-					'judul' => $judul,
-					'jenisPihak' => $jenisPihak,
-					'nik' => $nik,
-					'nama' => $nama,
-					'tmp_lahir' => $tmp_lahir,
-					'tgl_lahir' => $tgl_lahir,
-					'jk' => $jk,
-					'alamat' => $alamat,
-					'agama' => $agama,
-					'kawin' => $kawin,
-					'pekerjaan' => $pekerjaan,
-					'bank' => $bank,
-					'no_rek' => $no_rek,
-					'nama_rek' => $nama_rek,
-					'status' => $stat,
-					'telp' => $telp,
-					'no_hp' => $no_hp,
-					'email' => $email,
-					'difabel' => $difabel,
-					'pendidikan' => $pendidikan,
-					'ktp' => $ktp
-				)
-			);
+			if ($jenisPihak == 1) {
+				echo json_encode(
+					array(
+						'st' => 1,
+						'id' => $id,
+						'judul' => $judul,
+						'jenisPihak' => $jenisPihak,
+						'nik' => $query->row()->no_induk,
+						'nama' => $query->row()->nama,
+						'tmp_lahir' => $query->row()->tmp_lahir,
+						'tgl_lahir' => $query->row()->tgl_lahir,
+						'jk' => $query->row()->jk,
+						'alamat' => $query->row()->alamat,
+						'agama' => $query->row()->agama,
+						'kawin' => $query->row()->kawin,
+						'pekerjaan' => $query->row()->pekerjaan,
+						'bank' => $query->row()->bank,
+						'no_rek' => $query->row()->no_rek,
+						'nama_rek' => $query->row()->nama_rek,
+						'status' => $stat,
+						'telp' => $query->row()->telp,
+						'no_hp' => $query->row()->nohp,
+						'email' => $query->row()->email,
+						'difabel' => $query->row()->difabel,
+						'pendidikan' => $query->row()->pendidikan,
+						'ktp' => base_url() . 'assets/dokumen/ecourt/' . $query->row()->dokumen_1
+					)
+				);
+			} elseif ($jenisPihak == 2) {
+				echo json_encode(
+					array(
+						'st' => 1,
+						'id' => $id,
+						'judul' => $judul,
+						'jenisPihak' => $jenisPihak,
+						'nama_instansi' => $query->row()->nama_inst,
+						'alamat_instansi' => $query->row()->alamat_inst,
+						'email_instansi' => $query->row()->email_inst,
+						'nip' => $query->row()->no_induk,
+						'nama' => $query->row()->nama,
+						'alamat' => $query->row()->alamat,
+						'bank' => $query->row()->bank,
+						'no_rek' => $query->row()->no_rek,
+						'nama_rek' => $query->row()->nama_rek,
+						'status' => $stat,
+						'telp' => $query->row()->telp,
+						'no_hp' => $query->row()->nohp,
+						'email' => $query->row()->email,
+						'ktp' => base_url() . 'assets/dokumen/ecourt/' . $query->row()->dokumen_1,
+						'karpeg' => base_url() . 'assets/dokumen/ecourt/' . $query->row()->dokumen_2
+					)
+				);
+			} elseif ($jenisPihak == 3) {
+				echo json_encode(
+					array(
+						'st' => 1,
+						'id' => $id,
+						'judul' => $judul,
+						'jenisPihak' => $jenisPihak,
+						'nama_bh' => $query->row()->nama_inst,
+						'tglAkta' => $query->row()->tgl_akta_pendirian,
+						'noAkta' => $query->row()->no_akta_pendirian,
+						'tglSK' => $query->row()->tgl_sk_menteri,
+						'noSK' => $query->row()->no_sk_menteri,
+						'alamat_bh' => $query->row()->alamat_inst,
+						'email_bh' => $query->row()->email_inst,
+						'nik' => $query->row()->no_induk,
+						'nama' => $query->row()->nama,
+						'alamat' => $query->row()->alamat,
+						'bank' => $query->row()->bank,
+						'no_rek' => $query->row()->no_rek,
+						'nama_rek' => $query->row()->nama_rek,
+						'status' => $stat,
+						'telp' => $query->row()->telp,
+						'no_hp' => $query->row()->nohp,
+						'email' => $query->row()->email,
+						'ktp' => base_url() . 'assets/dokumen/ecourt/' . $query->row()->dokumen_1,
+						'karpeg' => base_url() . 'assets/dokumen/ecourt/' . $query->row()->dokumen_2
+					)
+				);
+			}
 		} else {
 			$stat_ = $query->row()->status;
-			$password = $query->row()->password;
-			$ket = $query->row()->ket;
 			$stat = form_dropdown('status', $status, $stat_, 'class="form-control" onChange="statusProses()" disabled id="status"');
-			echo json_encode(
-				array(
-					'st' => 1,
-					'id' => $id,
-					'judul' => $judul,
-					'jenisPihak' => $jenisPihak,
-					'nik' => $nik,
-					'nama' => $nama,
-					'tmp_lahir' => $tmp_lahir,
-					'tgl_lahir' => $tgl_lahir,
-					'jk' => $jk,
-					'alamat' => $alamat,
-					'agama' => $agama,
-					'kawin' => $kawin,
-					'pekerjaan' => $pekerjaan,
-					'bank' => $bank,
-					'no_rek' => $no_rek,
-					'nama_rek' => $nama_rek,
-					'telp' => $telp,
-					'no_hp' => $no_hp,
-					'email' => $email,
-					'difabel' => $difabel,
-					'pendidikan' => $pendidikan,
-					'ktp' => $ktp,
-					'password' => $password,
-					'status' => $stat,
-					'ket' => $ket
-				)
-			);
+
+			if ($jenisPihak == 1) {
+				echo json_encode(
+					array(
+						'st' => 1,
+						'id' => $id,
+						'judul' => $judul,
+						'jenisPihak' => $jenisPihak,
+						'nik' => $query->row()->no_induk,
+						'nama' => $query->row()->nama,
+						'tmp_lahir' => $query->row()->tmp_lahir,
+						'tgl_lahir' => $query->row()->tgl_lahir,
+						'jk' => $query->row()->jk,
+						'alamat' => $query->row()->alamat,
+						'agama' => $query->row()->agama,
+						'kawin' => $query->row()->kawin,
+						'pekerjaan' => $query->row()->pekerjaan,
+						'bank' => $query->row()->bank,
+						'no_rek' => $query->row()->no_rek,
+						'nama_rek' => $query->row()->nama_rek,
+						'status' => $stat,
+						'telp' => $query->row()->telp,
+						'no_hp' => $query->row()->nohp,
+						'email' => $query->row()->email,
+						'difabel' => $query->row()->difabel,
+						'pendidikan' => $query->row()->pendidikan,
+						'ktp' => base_url() . 'assets/dokumen/ecourt/' . $query->row()->dokumen_1,
+						'password' => $query->row()->password,
+						'ket' => $query->row()->ket
+					)
+				);
+			} elseif ($jenisPihak == 2) {
+				echo json_encode(
+					array(
+						'st' => 1,
+						'id' => $id,
+						'judul' => $judul,
+						'jenisPihak' => $jenisPihak,
+						'nama_instansi' => $query->row()->nama_inst,
+						'alamat_instansi' => $query->row()->alamat_inst,
+						'email_instansi' => $query->row()->email_inst,
+						'nip' => $query->row()->no_induk,
+						'nama' => $query->row()->nama,
+						'alamat' => $query->row()->alamat,
+						'bank' => $query->row()->bank,
+						'no_rek' => $query->row()->no_rek,
+						'nama_rek' => $query->row()->nama_rek,
+						'status' => $stat,
+						'telp' => $query->row()->telp,
+						'no_hp' => $query->row()->nohp,
+						'email' => $query->row()->email,
+						'ktp' => base_url() . 'assets/dokumen/ecourt/' . $query->row()->dokumen_1,
+						'karpeg' => base_url() . 'assets/dokumen/ecourt/' . $query->row()->dokumen_2,
+						'password' => $query->row()->password,
+						'ket' => $query->row()->ket
+					)
+				);
+			} elseif ($jenisPihak == 3) {
+				echo json_encode(
+					array(
+						'st' => 1,
+						'id' => $id,
+						'judul' => $judul,
+						'jenisPihak' => $jenisPihak,
+						'nama_bh' => $query->row()->nama_inst,
+						'tglAkta' => $query->row()->tgl_akta_pendirian,
+						'noAkta' => $query->row()->no_akta_pendirian,
+						'tglSK' => $query->row()->tgl_sk_menteri,
+						'noSK' => $query->row()->no_sk_menteri,
+						'alamat_bh' => $query->row()->alamat_inst,
+						'email_bh' => $query->row()->email_inst,
+						'nik' => $query->row()->no_induk,
+						'nama' => $query->row()->nama,
+						'alamat' => $query->row()->alamat,
+						'bank' => $query->row()->bank,
+						'no_rek' => $query->row()->no_rek,
+						'nama_rek' => $query->row()->nama_rek,
+						'status' => $stat,
+						'telp' => $query->row()->telp,
+						'no_hp' => $query->row()->nohp,
+						'email' => $query->row()->email,
+						'ktp' => base_url() . 'assets/dokumen/ecourt/' . $query->row()->dokumen_1,
+						'karpeg' => base_url() . 'assets/dokumen/ecourt/' . $query->row()->dokumen_2,
+						'password' => $query->row()->password,
+						'ket' => $query->row()->ket
+					)
+				);
+			}
 		}
 
 		return;
@@ -777,7 +894,7 @@ class HalamanDashboard extends CI_Controller
 					#unlink($file_exist);
 					$file_upload = $upload_data['file_name'];
 
-					$data ['foto'] = $file_upload;
+					$data['foto'] = $file_upload;
 				}
 			}
 

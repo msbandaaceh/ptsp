@@ -125,7 +125,7 @@
 
       <div id="hero-carousel" class="carousel slide carousel-fade">
         <div class="carousel-item active">
-          <img src="assets/img/ptsp.webp" alt="">
+          <img src="assets/img/ptsp2.png" alt="">
           <div class="container">
             <h2>SELAMAT DATANG DI</h2>
             <h3>MAHKAMAH SYAR'IYAH BANDA ACEH</h3>

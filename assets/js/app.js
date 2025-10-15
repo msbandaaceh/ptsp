@@ -424,21 +424,21 @@ function batalEditProsesPanjar() {
 }
 
 function statusProses() {
-    $('#form_proses_panjar').hide();
+    $('#form_proses').hide();
     var jenis_status = $('#status').val();
     if (jenis_status == '') {
-        $('#form_proses_panjar').hide();
+        $('#form_proses').hide();
         $('#proses').hide();
         $('#tidak_proses').hide();
         $('#jenis_').val('');
     } else if (jenis_status == 1) {
         //console.log(jenis_progres);
-        $('#form_proses_panjar').show();
+        $('#form_proses').show();
         $('#proses').show();
         $('#tidak_proses').hide();
         $('#jenis_').val('1');
     } else {
-        $('#form_proses_panjar').show();
+        $('#form_proses').show();
         $('#proses').hide();
         $('#tidak_proses').show();
         $('#jenis_').val('2');
@@ -446,176 +446,362 @@ function statusProses() {
 }
 
 function BukaModalProsesEcourt(id) {
-    $('#form_proses_panjar').hide();
-    $('#btnSimpan').show();
-    $('#btnReset').show();
-    $('#btnEdit').hide();
-    $('#btnBatal').hide();
-    $('#notif').hide();
-    $.post('modal_ecourt', {
-        id: id, jenis: '1'
-    }, function (response) {
-        var json = jQuery.parseJSON(response);
-        if (json.st == 1) {
-            $("#title").html("");
-            $("#id_").val('');
-            $("#jenisPihak_").html('');
-            $("#nama_").html('');
-            $('#nik_').html('');
-            $("#tmp_lahir_").html('');
-            $('#tgl_lahir_').html('');
-            $("#jk_").html('');
-            $('#alamat_').html('');
-            $("#agama_").html('');
-            $('#kawin_').html('');
-            $("#pekerjaan_").html('');
-            $('#bank_').html('');
-            $('#norek_').html('');
-            $("#namarek_").html('');
-            $("#telp_").html('');
-            $('#no_hp_').html('');
-            $("#email_").html('');
-            $('#difabel_').html('');
-            $("#pendidikan_").html('');
-            $('#ktp_').html('');
-            $("#status_").html("");
 
-            $("#title").append(json.judul);
-            $("#id_").val(json.id);
-            $("#jenisPihak_").append(json.jenisPihak);
-            $("#nama_").append(json.nama);
-            $('#nik_').append(json.nik);
-            $("#tmp_lahir_").append(json.tmp_lahir);
-            $('#tgl_lahir_').append(json.tgl_lahir);
-            if (json.jk == 1) {
-                $("#jk_").append('Pria');
-            } else {
-                $("#jk_").append('Wanita');
-            }
-            $('#alamat_').append(json.alamat);
-            $("#agama_").append(json.agama);
-            switch (json.kawin) {
-                case "1": $('#kawin_').append('Kawin'); break;
-                case "2": $('#kawin_').append('Belum Kawin'); break;
-                case "3": $('#kawin_').append('Duda'); break;
-                case "4": $('#kawin_').append('Janda'); break;
-                default: $('#kawin_').append('-'); break;
-            }
-            $("#pekerjaan_").append(json.pekerjaan);
-            $('#bank_').append(json.bank);
-            $('#norek_').append(json.no_rek);
-            $("#namarek_").append(json.nama_rek);
-            $("#telp_").append(json.telp);
-            $('#no_hp_').append(json.no_hp);
-            $("#email_").append(json.email);
-            if (json.difabel == 1) {
-                $('#difabel_').append('Tidak');
-            } else {
-                $('#difabel_').append('Ya');
-            }
-            $("#pendidikan_").append(json.pendidikan);
-            $('#ktp_').append('<a target="blank_" href="' + json.ktp + '">Download</a>');
-            $("#status_").append(json.status);
+
+    $('#dataPemohon').html('<div class="text-center p-3"><i class="fa fa-spinner fa-spin"></i> Memuat formulir...</div>');
+
+    $.ajax({
+        url: 'admin/halamandashboard/get_data_pihak/' + id,
+        type: 'GET',
+        success: function (response) {
+            // tampilkan form hasil AJAX
+            $('#dataPemohon').html(response);
+
+            $('#form_proses').hide();
+            $('#btnSimpan').show();
+            $('#btnReset').show();
+            $('#btnEdit').hide();
+            $('#btnBatal').hide();
+            $('#notif').hide();
+
+            $.post('modal_ecourt', {
+                id: id, jenis: '1'
+            }, function (response) {
+                var json = jQuery.parseJSON(response);
+                if (json.st == 1) {
+                    $("#title").html("");
+                    $("#id_").val('');
+                    if (json.jenisPihak == 1) {
+                        $("#jenisPihak_").html('');
+                        $("#nama_").html('');
+                        $('#nik_').html('');
+                        $("#tmp_lahir_").html('');
+                        $('#tgl_lahir_').html('');
+                        $("#jk_").html('');
+                        $('#alamat_').html('');
+                        $("#agama_").html('');
+                        $('#kawin_').html('');
+                        $("#pekerjaan_").html('');
+                        $('#bank_').html('');
+                        $('#norek_').html('');
+                        $("#namarek_").html('');
+                        $("#telp_").html('');
+                        $('#no_hp_').html('');
+                        $("#email_").html('');
+                        $('#difabel_').html('');
+                        $("#pendidikan_").html('');
+                        $('#ktp_').html('');
+
+                        $("#jenisPihak_").append('Perorangan');
+                        $("#nama_").append(json.nama);
+                        $('#nik_').append(json.nik);
+                        $("#tmp_lahir_").append(json.tmp_lahir);
+                        $('#tgl_lahir_').append(json.tgl_lahir);
+                        if (json.jk == 1) {
+                            $("#jk_").append('Pria');
+                        } else {
+                            $("#jk_").append('Wanita');
+                        }
+                        $('#alamat_').append(json.alamat);
+                        $("#agama_").append(json.agama);
+                        switch (json.kawin) {
+                            case "1": $('#kawin_').append('Kawin'); break;
+                            case "2": $('#kawin_').append('Belum Kawin'); break;
+                            case "3": $('#kawin_').append('Duda'); break;
+                            case "4": $('#kawin_').append('Janda'); break;
+                            default: $('#kawin_').append('-'); break;
+                        }
+                        $("#pekerjaan_").append(json.pekerjaan);
+                        $('#bank_').append(json.bank);
+                        $('#norek_').append(json.no_rek);
+                        $("#namarek_").append(json.nama_rek);
+                        $("#telp_").append(json.telp);
+                        $('#no_hp_').append(json.no_hp);
+                        $("#email_").append(json.email);
+                        if (json.difabel == 1) {
+                            $('#difabel_').append('Tidak');
+                        } else {
+                            $('#difabel_').append('Ya');
+                        }
+                        $("#pendidikan_").append(json.pendidikan);
+                        $('#ktp_').append('<a target="blank_" href="' + json.ktp + '">Download</a>');
+                    } else if (json.jenisPihak == 2) {
+                        $("#jenisPihak_").html('');
+                        $("#nama_instansi_").html('');
+                        $("#alamat_instansi_").html('');
+                        $("#email_instansi_").html('');
+                        $("#nama_").html('');
+                        $('#nip_').html('');
+                        $('#bank_').html('');
+                        $('#norek_').html('');
+                        $("#namarek_").html('');
+                        $("#telp_").html('');
+                        $('#no_hp_').html('');
+                        $("#email_").html('');
+                        $('#alamat_').html('');
+                        $('#ktp_').html('');
+                        $('#karpeg_').html('');
+
+                        $("#jenisPihak_").append('Pemerintah');
+                        $("#nama_instansi_").append(json.nama_instansi);
+                        $("#alamat_instansi_").append(json.alamat_instansi);
+                        $("#email_instansi_").append(json.email_instansi);
+                        $("#nama_").append(json.nama);
+                        $('#nip_').append(json.nip);
+                        $('#bank_').append(json.bank);
+                        $('#norek_').append(json.no_rek);
+                        $("#namarek_").append(json.nama_rek);
+                        $("#telp_").append(json.telp);
+                        $('#no_hp_').append(json.no_hp);
+                        $("#email_").append(json.email);
+                        $('#alamat_').append(json.alamat);
+                        $('#ktp_').append('<a target="blank_" href="' + json.ktp + '">Download</a>');
+                        $('#karpeg_').append('<a target="blank_" href="' + json.karpeg + '">Download</a>');
+                    } else if (json.jenisPihak == 3) {
+                        $("#jenisPihak_").html('');
+                        $("#nama_bh_").html('');
+                        $("#tglAkta_").html('');
+                        $("#noAkta_").html('');
+                        $("#tglSK_").html('');
+                        $("#noSK_").html('');
+                        $("#alamat_bh_").html('');
+                        $("#email_bh_").html('');
+                        $("#nama_").html('');
+                        $('#nik_').html('');
+                        $('#bank_').html('');
+                        $('#norek_').html('');
+                        $("#namarek_").html('');
+                        $("#telp_").html('');
+                        $('#no_hp_').html('');
+                        $("#email_").html('');
+                        $('#alamat_').html('');
+                        $('#ktp_').html('');
+                        $('#karpeg_').html('');
+
+                        $("#jenisPihak_").append('Badan Hukum');
+                        $("#nama_bh_").append(json.nama_bh);
+                        $("#tglAkta_").append(json.tglAkta);
+                        $("#noAkta_").append(json.noAkta);
+                        $("#tglSK_").append(json.tglSK);
+                        $("#noSK_").append(json.noSK);
+                        $("#alamat_bh_").append(json.alamat_bh);
+                        $("#email_bh_").append(json.email_bh);
+                        $("#nama_").append(json.nama);
+                        $('#nik_').append(json.nip);
+                        $('#bank_').append(json.bank);
+                        $('#norek_').append(json.no_rek);
+                        $("#namarek_").append(json.nama_rek);
+                        $("#telp_").append(json.telp);
+                        $('#no_hp_').append(json.no_hp);
+                        $("#email_").append(json.email);
+                        $('#alamat_').append(json.alamat);
+                        $('#ktp_').append('<a target="blank_" href="' + json.ktp + '">Download</a>');
+                        $('#karpeg_').append('<a target="blank_" href="' + json.karpeg + '">Download</a>');
+                    }
+
+                    $("#status_").html("");
+
+                    $("#title").append(json.judul);
+                    $("#id_").val(json.id);
+
+                    $("#status_").append(json.status);
+                }
+            });
+        },
+        error: function () {
+            $('#formEcourt').html('<div class="alert alert-danger">Gagal memuat data.</div>');
         }
     });
 }
 
 function BukaModalEcourt(id) {
-    $('#form_proses_ecourt').hide();
-    $('#btnEdit').show();
-    $('#btnSimpan').hide();
-    $('#btnBatal').hide();
-    $('#btnReset').hide();
-    $('#notif').hide();
-    $.post('modal_ecourt', {
-        id: id, jenis: '2'
-    }, function (response) {
-        var json = jQuery.parseJSON(response);
-        if (json.st == 1) {
-            $("#title").html("");
-            $("#id_").val('');
-            $("#jenisPihak_").html('');
-            $("#nama_").html('');
-            $('#nik_').html('');
-            $("#tmp_lahir_").html('');
-            $('#tgl_lahir_').html('');
-            $("#jk_").html('');
-            $('#alamat_').html('');
-            $("#agama_").html('');
-            $('#kawin_').html('');
-            $("#pekerjaan_").html('');
-            $('#bank_').html('');
-            $('#norek_').html('');
-            $("#namarek_").html('');
-            $("#telp_").html('');
-            $('#no_hp_').html('');
-            $("#email_").html('');
-            $('#difabel_').html('');
-            $("#pendidikan_").html('');
-            $('#ktp_').html('');
-            $("#status_").html("");
+    $('#dataPemohon').html('<div class="text-center p-3"><i class="fa fa-spinner fa-spin"></i> Memuat formulir...</div>');
 
-            $("#title").append(json.judul);
-            $("#id_").val(json.id);
-            $("#jenisPihak_").append(json.jenisPihak);
-            $("#nama_").append(json.nama);
-            $('#nik_').append(json.nik);
-            $("#tmp_lahir_").append(json.tmp_lahir);
-            $('#tgl_lahir_').append(json.tgl_lahir);
-            if (json.jk == 1) {
-                $("#jk_").append('Pria');
-            } else {
-                $("#jk_").append('Wanita');
-            }
-            $('#alamat_').append(json.alamat);
-            $("#agama_").append(json.agama);
-            switch (json.kawin) {
-                case "1": $('#kawin_').append('Kawin'); break;
-                case "2": $('#kawin_').append('Belum Kawin'); break;
-                case "3": $('#kawin_').append('Duda'); break;
-                case "4": $('#kawin_').append('Janda'); break;
-                default: $('#kawin_').append('-'); break;
-            }
-            $("#pekerjaan_").append(json.pekerjaan);
-            $('#bank_').append(json.bank);
-            $('#norek_').append(json.no_rek);
-            $("#namarek_").append(json.nama_rek);
-            $("#telp_").append(json.telp);
-            $('#no_hp_').append(json.no_hp);
-            $("#email_").append(json.email);
-            if (json.difabel == 1) {
-                $('#difabel_').append('Tidak');
-            } else {
-                $('#difabel_').append('Ya');
-            }
-            $("#pendidikan_").append(json.pendidikan);
-            $('#ktp_').append('<a target="blank_" href="' + json.ktp + '">Download</a>');
-            $("#status_").append(json.status);
+    $.ajax({
+        url: 'admin/halamandashboard/get_data_pihak/' + id,
+        type: 'GET',
+        success: function (response) {
+            // tampilkan form hasil AJAX
+            $('#dataPemohon').html(response);
 
-            if ($('#status').val() == 1) {
-                $('#password').val('');
-                $('#ket_proses').val('');
+            $('#form_proses').hide();
+            $('#btnEdit').show();
+            $('#btnSimpan').hide();
+            $('#btnBatal').hide();
+            $('#btnReset').hide();
+            $('#notif').hide();
 
-                $('#password').attr('disabled', true);
-                $('#ket_proses').attr('disabled', true);
+            $.post('modal_ecourt', {
+                id: id, jenis: '2'
+            }, function (response) {
+                var json = jQuery.parseJSON(response);
+                if (json.st == 1) {
+                    $("#title").html("");
+                    $("#id_").val('');
 
-                $('#password').val(json.password);
-                $('#ket_proses').val(json.ket);
+                    if (json.jenisPihak == 1) {
+                        $("#jenisPihak_").html('');
+                        $("#nama_").html('');
+                        $('#nik_').html('');
+                        $("#tmp_lahir_").html('');
+                        $('#tgl_lahir_').html('');
+                        $("#jk_").html('');
+                        $('#alamat_').html('');
+                        $("#agama_").html('');
+                        $('#kawin_').html('');
+                        $("#pekerjaan_").html('');
+                        $('#bank_').html('');
+                        $('#norek_').html('');
+                        $("#namarek_").html('');
+                        $("#telp_").html('');
+                        $('#no_hp_').html('');
+                        $("#email_").html('');
+                        $('#difabel_').html('');
+                        $("#pendidikan_").html('');
+                        $('#ktp_').html('');
 
-                $('#form_proses_ecourt').show();
-                $('#proses').show();
-                $('#tidak_proses').hide();
-                $('#jenis_').val('1');
-            } else {
-                $('#ket').val('');
-                $('#ket').attr('disabled', true);
-                $('#ket').val(json.ket);
+                        $("#jenisPihak_").append('Perorangan');
+                        $("#nama_").append(json.nama);
+                        $('#nik_').append(json.nik);
+                        $("#tmp_lahir_").append(json.tmp_lahir);
+                        $('#tgl_lahir_').append(json.tgl_lahir);
+                        if (json.jk == 1) {
+                            $("#jk_").append('Pria');
+                        } else {
+                            $("#jk_").append('Wanita');
+                        }
+                        $('#alamat_').append(json.alamat);
+                        $("#agama_").append(json.agama);
+                        switch (json.kawin) {
+                            case "1": $('#kawin_').append('Kawin'); break;
+                            case "2": $('#kawin_').append('Belum Kawin'); break;
+                            case "3": $('#kawin_').append('Duda'); break;
+                            case "4": $('#kawin_').append('Janda'); break;
+                            default: $('#kawin_').append('-'); break;
+                        }
+                        $("#pekerjaan_").append(json.pekerjaan);
+                        $('#bank_').append(json.bank);
+                        $('#norek_').append(json.no_rek);
+                        $("#namarek_").append(json.nama_rek);
+                        $("#telp_").append(json.telp);
+                        $('#no_hp_').append(json.no_hp);
+                        $("#email_").append(json.email);
+                        if (json.difabel == 1) {
+                            $('#difabel_').append('Tidak');
+                        } else {
+                            $('#difabel_').append('Ya');
+                        }
+                        $("#pendidikan_").append(json.pendidikan);
+                        $('#ktp_').append('<a target="blank_" href="' + json.ktp + '">Download</a>');
+                    } else if (json.jenisPihak == 2) {
+                        $("#jenisPihak_").html('');
+                        $("#nama_instansi_").html('');
+                        $("#alamat_instansi_").html('');
+                        $("#email_instansi_").html('');
+                        $("#nama_").html('');
+                        $('#nip_').html('');
+                        $('#bank_').html('');
+                        $('#norek_').html('');
+                        $("#namarek_").html('');
+                        $("#telp_").html('');
+                        $('#no_hp_').html('');
+                        $("#email_").html('');
+                        $('#alamat_').html('');
+                        $('#ktp_').html('');
+                        $('#karpeg_').html('');
 
-                $('#form_proses_ecourt').show();
-                $('#proses').hide();
-                $('#tidak_proses').show();
-                $('#jenis_').val('2');
-            }
+                        $("#jenisPihak_").append('Pemerintah');
+                        $("#nama_instansi_").append(json.nama_instansi);
+                        $("#alamat_instansi_").append(json.alamat_instansi);
+                        $("#email_instansi_").append(json.email_instansi);
+                        $("#nama_").append(json.nama);
+                        $('#nip_').append(json.nip);
+                        $('#bank_').append(json.bank);
+                        $('#norek_').append(json.no_rek);
+                        $("#namarek_").append(json.nama_rek);
+                        $("#telp_").append(json.telp);
+                        $('#no_hp_').append(json.no_hp);
+                        $("#email_").append(json.email);
+                        $('#alamat_').append(json.alamat);
+                        $('#ktp_').append('<a target="blank_" href="' + json.ktp + '">Download</a>');
+                        $('#karpeg_').append('<a target="blank_" href="' + json.karpeg + '">Download</a>');
+                    } else if (json.jenisPihak == 3) {
+                        $("#jenisPihak_").html('');
+                        $("#nama_bh_").html('');
+                        $("#tglAkta_").html('');
+                        $("#noAkta_").html('');
+                        $("#tglSK_").html('');
+                        $("#noSK_").html('');
+                        $("#alamat_bh_").html('');
+                        $("#email_bh_").html('');
+                        $("#nama_").html('');
+                        $('#nik_').html('');
+                        $('#bank_').html('');
+                        $('#norek_').html('');
+                        $("#namarek_").html('');
+                        $("#telp_").html('');
+                        $('#no_hp_').html('');
+                        $("#email_").html('');
+                        $('#alamat_').html('');
+                        $('#ktp_').html('');
+                        $('#karpeg_').html('');
+
+                        $("#jenisPihak_").append('Badan Hukum');
+                        $("#nama_bh_").append(json.nama_bh);
+                        $("#tglAkta_").append(json.tglAkta);
+                        $("#noAkta_").append(json.noAkta);
+                        $("#tglSK_").append(json.tglSK);
+                        $("#noSK_").append(json.noSK);
+                        $("#alamat_bh_").append(json.alamat_bh);
+                        $("#email_bh_").append(json.email_bh);
+                        $("#nama_").append(json.nama);
+                        $('#nik_').append(json.nip);
+                        $('#bank_').append(json.bank);
+                        $('#norek_').append(json.no_rek);
+                        $("#namarek_").append(json.nama_rek);
+                        $("#telp_").append(json.telp);
+                        $('#no_hp_').append(json.no_hp);
+                        $("#email_").append(json.email);
+                        $('#alamat_').append(json.alamat);
+                        $('#ktp_').append('<a target="blank_" href="' + json.ktp + '">Download</a>');
+                        $('#karpeg_').append('<a target="blank_" href="' + json.karpeg + '">Download</a>');
+                    }
+
+                    $("#title").append(json.judul);
+                    $("#id_").val(json.id);
+
+                    $("#status_").html("");
+                    $("#status_").append(json.status);
+
+                    if ($('#status').val() == 1) {
+                        $('#password').val('');
+                        $('#ket_proses').val('');
+
+                        $('#password').attr('disabled', true);
+                        $('#ket_proses').attr('disabled', true);
+
+                        $('#password').val(json.password);
+                        $('#ket_proses').val(json.ket);
+
+                        $('#form_proses').show();
+                        $('#proses').show();
+                        $('#tidak_proses').hide();
+                        $('#jenis_').val('1');
+                    } else {
+                        $('#ket').val('');
+                        $('#ket').attr('disabled', true);
+                        $('#ket').val(json.ket);
+
+                        $('#form_proses').show();
+                        $('#proses').hide();
+                        $('#tidak_proses').show();
+                        $('#jenis_').val('2');
+                    }
+                }
+            });
+        },
+        error: function () {
+            $('#formEcourt').html('<div class="alert alert-danger">Gagal memuat data.</div>');
         }
     });
 }

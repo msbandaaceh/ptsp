@@ -1,104 +1,57 @@
 $(function () {
 
-    $('#tglLahir').bootstrapMaterialDatePicker({
-        locale: 'id', // Setel lokal ke bahasa Indonesia
-        format: 'DD MMMM YYYY', // Format lengkap
-        time: false, // Aktifkan waktu
-        date: true, // Aktifkan tanggal
-    });
 
-    // Event listener untuk mengisi input kedua (#date-sql) saat input pertama berubah
-    $('#tglLahir').on('change', function () {
-        // Ambil nilai dari input pertama
-        let selectedDate = $(this).val();
-
-        // Konversi nilai ke format SQL (YYYY-MM-DD HH:mm:ss)
-        let sqlDate = moment(selectedDate, 'DD MMMM YYYY').format('YYYY-MM-DD');
-
-        // Isi nilai ke input kedua (#date-sql)
-        $('#tglLahir_').val(sqlDate);
-    });
-
-    $('#tglAkta').bootstrapMaterialDatePicker({
-        locale: 'id', // Setel lokal ke bahasa Indonesia
-        format: 'DD MMMM YYYY', // Format lengkap
-        time: false, // Aktifkan waktu
-        date: true, // Aktifkan tanggal
-    });
-
-    // Event listener untuk mengisi input kedua (#date-sql) saat input pertama berubah
-    $('#tglAkta').on('change', function () {
-        // Ambil nilai dari input pertama
-        let selectedDate = $(this).val();
-
-        // Konversi nilai ke format SQL (YYYY-MM-DD HH:mm:ss)
-        let sqlDate = moment(selectedDate, 'DD MMMM YYYY').format('YYYY-MM-DD');
-
-        // Isi nilai ke input kedua (#date-sql)
-        $('#tglAkta_').val(sqlDate);
-    });
-
-    $('#tglSK').bootstrapMaterialDatePicker({
-        locale: 'id', // Setel lokal ke bahasa Indonesia
-        format: 'DD MMMM YYYY', // Format lengkap
-        time: false, // Aktifkan waktu
-        date: true, // Aktifkan tanggal
-    });
-
-    // Event listener untuk mengisi input kedua (#date-sql) saat input pertama berubah
-    $('#tglSK').on('change', function () {
-        // Ambil nilai dari input pertama
-        let selectedDate = $(this).val();
-
-        // Konversi nilai ke format SQL (YYYY-MM-DD HH:mm:ss)
-        let sqlDate = moment(selectedDate, 'DD MMMM YYYY').format('YYYY-MM-DD');
-
-        // Isi nilai ke input kedua (#date-sql)
-        $('#tglSK_').val(sqlDate);
-    });
 });
 
 function gantiJenisPihak() {
     var jenis_pihak = $('#cbJenisPihak').val();
-    switch (jenis_pihak) {
-        case '1':
-            $('#jenisPihak_1').val(jenis_pihak);
-            $('#userPerorangan').show();
-            $('#userPemerintah').hide();
-            $('#userBadanHukum').hide();
-            $('#userKuasaInsidentil').hide();
-            break;
 
-        case '2':
-            $('#jenisPihak_2').val(jenis_pihak);
-            $('#userPerorangan').hide();
-            $('#userPemerintah').show();
-            $('#userBadanHukum').hide();
-            $('#userKuasaInsidentil').hide();
-            break;
+    if (jenis_pihak !== '') {
+        // tampilkan indikator loading
+        $('#formEcourt').html('<div class="text-center p-3"><i class="fa fa-spinner fa-spin"></i> Memuat formulir...</div>');
 
-        case '3':
-            $('#jenisPihak_3').val(jenis_pihak);
-            $('#userPerorangan').hide();
-            $('#userPemerintah').hide();
-            $('#userBadanHukum').show();
-            $('#userKuasaInsidentil').hide();
-            break;
+        $.ajax({
+            url: 'ecourt/halamanutama/get_form_pihak/' + jenis_pihak,
+            type: 'GET',
+            success: function (response) {
+                // tampilkan form hasil AJAX
+                $('#formEcourt').html(response);
 
-        case '4':
-            $('#jenisPihak_4').val(jenis_pihak);
-            $('#userPerorangan').hide();
-            $('#userPemerintah').hide();
-            $('#userBadanHukum').hide();
-            $('#userKuasaInsidentil').show();
-            break;
+                // set nilai jenis pihak ke input hidden jika ada
+                $('#jenisPihak_1').val(jenis_pihak);
 
-        default:
-            $('#jenisPihak_').val('');
-            $('#userPerorangan').hide();
-            $('#userPemerintah').hide();
-            $('#userBadanHukum').hide();
-            $('#userKuasaInsidentil').hide();
-            break;
+                // Tunggu sampai elemen #captcha benar-benar ada di DOM
+                setTimeout(function () {
+                    const captchaEl = document.getElementById('captcha');
+                    if (captchaEl) {
+                        try {
+                            // Bersihkan isi sebelumnya kalau ada
+                            $('#captcha').empty();
+
+                            // Render ulang captcha
+                            grecaptcha.render(captchaEl, {
+                                'sitekey': '6LcDRnMrAAAAAPYZEykwgzWgbffAe4LsO56EMHPV'
+                            });
+                        } catch (err) {
+                            console.error('Gagal render captcha:', err);
+                        }
+                    } else {
+                        console.error('Elemen #captcha belum ditemukan dalam response HTML.');
+                    }
+                }, 300); // delay 0.3 detik supaya DOM sudah siap
+
+                // Reinitialize filestyle plugin
+                if ($.fn.filestyle) {
+                    $(":file").filestyle({
+                        buttonName: "btn-secondary"
+                    });
+                }
+            },
+            error: function () {
+                $('#formEcourt').html('<div class="alert alert-danger">Gagal memuat form.</div>');
+            }
+        });
+    } else {
+        $('#formEcourt').empty();
     }
 }
