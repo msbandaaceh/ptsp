@@ -83,7 +83,7 @@
                         href="https://wa.me/6282274448844?text=Assalamualaikum.%20Saya%20Menghubungi%20Melalui%20PTSP%20Online%20dan%20Ingin%20Melakukan%20Panggilan%20Video.">Video
                         Call</a></li>
                     <li><a target="_blank" aria-label="Brosur Layanan Informasi"
-                        href="https://drive.google.com/file/d/1AphoriejBSnaxY2fstOsT3djpPUUN7cp/view?usp=drive_link">Brosur
+                        href="https://drive.google.com/drive/folders/1C88tcN8tdc9eiy5BMPaaPovIpewdzute?usp=sharing">Brosur
                         Elektronik</a></li>
                   </ul>
                 </li>
@@ -264,7 +264,7 @@
               <div class="icon">
                 <i class="fas fa-file-pdf"></i>
               </div>
-              <a href="https://drive.google.com/file/d/1AphoriejBSnaxY2fstOsT3djpPUUN7cp/view?usp=drive_link"
+              <a href="https://drive.google.com/drive/folders/1C88tcN8tdc9eiy5BMPaaPovIpewdzute?usp=sharing"
                 aria-label="Brosur Layanan Informasi" target="_blank" class="stretched-link">
                 <h3>Brosur</h3>
               </a>
