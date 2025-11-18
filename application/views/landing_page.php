@@ -406,7 +406,7 @@
                   data-aos-delay="400">
                   <i class="bi bi-envelope"></i>
                   <h3>Email</h3>
-                  <p>msbandaaceh@yahoo.com</p>
+                  <p>mskotabandaaceh@gmail.com</p>
                 </div>
               </div><!-- End Info Item -->
             </div>
