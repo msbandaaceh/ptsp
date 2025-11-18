@@ -102,6 +102,8 @@
                     Pengguna Ecourt</a></li>
                 <li><a target="_blank" href="antrian" aria-label="Layanan Monitoring Antrian Sidang">Monitoring Antrian
                     Sidang</a></li>
+                <li><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScA30aDBqMzw6hOhBbVTc3FQpQ94i-fBZoRCQ2ZE5WbVkUkRA/viewform" aria-label="Layanan SILaPINDaWA">SILaPINDaWA</a></li>
+                <li><a target="_blank" href="https://e-supel.ms-bandaaceh.go.id/" aria-label="Layanan E-SUPEL">E-SUPEL</a></li>
               </ul>
             </li>
             <li><a href="#contact" aria-label="Halaman Kontak PTSP Online">Hubungi</a></li>
@@ -333,6 +335,30 @@
               </a>
               <p>Layanan Monitoring Antrian Sidang <em>Realtime</em> ditampilkan secara daring, sehingga pihak dapat
                 memantau nomor antrian sidang yang sedang berjalan</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="700">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="fas fa-file-alt"></i>
+              </div>
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLScA30aDBqMzw6hOhBbVTc3FQpQ94i-fBZoRCQ2ZE5WbVkUkRA/viewform" target="_blank" class="stretched-link" aria-label="Layanan SILaPINDaWA">
+                <h3>SILaPINDaWA</h3>
+              </a>
+              <p>Layanan ini merupakan inovasi yang di rancang untuk memberikan kemudahan bagi para mahasiswa dan masyarakat dalam mengajukan permohonan informasi berupa dokumen elektronik dari putusan yang telah berkekuatan hukum tetap</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="800">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <a href="https://e-supel.ms-bandaaceh.go.id/" target="_blank" class="stretched-link" aria-label="Layanan E-SUPEL">
+                <h3>E-SUPEL</h3>
+              </a>
+              <p>Sistem survei feedback bagi petugas layanan di Mahkamah Syar'iyah Banda Aceh. Masyarakat yang telah menerima pelayanan, baik di PTSP atau PTSP Online, dapat menilai petugas yang telah melayani</p>
             </div>
           </div><!-- End Service Item -->
         </div>
