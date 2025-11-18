@@ -118,6 +118,7 @@
                                     <ul class="submenu">
                                         <li><a href="list_petugas">Daftar Petugas</a></li>
                                         <li><a href="nilai_petugas">Daftar Penilaian</a></li>
+                                        <li><a href="statistik_penilaian">Statistik Penilaian</a></li>
                                     </ul>
                                 </li>
                             <?php }
@@ -130,6 +131,7 @@
                                 <ul class="submenu">
                                     <li><a href="list_petugas">Daftar Petugas</a></li>
                                     <li><a href="nilai_petugas">Daftar Penilaian</a></li>
+                                    <li><a href="statistik_penilaian">Statistik Penilaian</a></li>
                                 </ul>
                             </li>
                         <?php } ?>

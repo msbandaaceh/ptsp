@@ -1018,4 +1018,71 @@ class HalamanDashboard extends CI_Controller
 		$this->load->view('admin/header');
 		$this->load->view('admin/list_nilai_petugas', $nilai);
 	}
+
+	public function statistik_penilaian()
+	{
+		$tahun_periode = $this->admin->ambil_tahun_survei();
+
+		if (!$this->input->post('jenis_periode')) {
+			$data = [
+				'jenis' => '0'
+			];
+			$periode = 'TAHUN ' . date('Y');
+		} else {
+			$jenis_periode = $this->input->post('jenis_periode');
+			if ($jenis_periode == '1') {
+				$tahun = $this->input->post('tahun_periode');
+				$triwulan = $this->input->post('triwulan');
+
+				$data = [
+					'jenis' => $jenis_periode,
+					'data_nilai' => [
+						'tahun' => $tahun,
+						'triwulan' => $triwulan
+					]
+				];
+
+				$periode = 'TRIWULAN ' . $triwulan . ' TAHUN ' . $tahun;
+			} else {
+				$tgl_awal = $this->input->post('tgl_awal');
+				$tgl_akhir = $this->input->post('tgl_akhir');
+
+				$data = [
+					'jenis' => $jenis_periode,
+					'data_nilai' => [
+						'tgl_awal' => $tgl_awal,
+						'tgl_akhir' => $tgl_akhir
+					]
+				];
+
+				$periode = $this->tanggalhelper->konversiTanggal($tgl_awal) . ' s/d ' . $this->tanggalhelper->konversiTanggal($tgl_akhir);
+			}
+		}
+
+		// Statistik umum
+		$statistik['total_responden'] = count($this->admin->all_nilai_petugas_periode($data));
+		$statistik['total_keramahan'] = $this->admin->nilai_keramahan_periode($data)->row()->rata_keramahan;
+		$statistik['total_kepuasan'] = $this->admin->nilai_kepuasan_periode($data)->row()->rata_kepuasan;
+		
+		// Statistik per petugas
+		$statistik['statistik_petugas'] = $this->admin->statistik_per_petugas($data);
+		
+		// Distribusi skor keramahan
+		$statistik['distribusi_keramahan'] = $this->admin->distribusi_skor_keramahan($data);
+		
+		// Distribusi skor kepuasan
+		$statistik['distribusi_kepuasan'] = $this->admin->distribusi_skor_kepuasan($data);
+		
+		// Statistik bulanan (untuk trend)
+		$statistik['trend_bulanan'] = $this->admin->trend_penilaian_bulanan($data);
+		
+		// Statistik per hari dalam seminggu
+		$statistik['statistik_hari'] = $this->admin->statistik_per_hari($data);
+		
+		$statistik['tahun_periode'] = $tahun_periode;
+		$statistik['periode'] = $periode;
+		
+		$this->load->view('admin/header');
+		$this->load->view('admin/statistik_penilaian', $statistik);
+	}
 }

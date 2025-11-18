@@ -59,3 +59,4 @@ $route['list_petugas'] = 'admin/HalamanDashboard/petugas';
 $route['modal_petugas'] = 'admin/HalamanDashboard/modal_petugas';
 $route['simpan_petugas'] = 'admin/HalamanDashboard/simpan_petugas';
 $route['nilai_petugas'] = 'admin/HalamanDashboard/nilai_petugas';
+$route['statistik_penilaian'] = 'admin/HalamanDashboard/statistik_penilaian';

@@ -177,7 +177,7 @@
                                 <div id="status_">
                                 </div>
                             </div>
-                            <form method="POST" id="form_proses_panjar" action="proses_panjar">
+                            <form method="POST" id="form_proses" action="proses_panjar">
                                 <input type="hidden" id="jenis_" name="jenis" class="form-control" />
                                 <input type="hidden" id="id_" name="id" class="form-control" />
                                 <div style="display: none" id="proses">

@@ -160,22 +160,45 @@
                             <div class="row">
                                 <?php
                                 if ($petugas_terbaik) {
+                                    $peringkat = 1;
                                     foreach ($petugas_terbaik as $best) {
+                                        // Tentukan badge warna berdasarkan peringkat
+                                        $badge_class = '';
+                                        $badge_text = '';
+                                        switch ($peringkat) {
+                                            case 1:
+                                                $badge_class = 'badge-warning';
+                                                $badge_text = 'PERINGKAT 1';
+                                                break;
+                                            case 2:
+                                                $badge_class = 'badge-secondary';
+                                                $badge_text = 'PERINGKAT 2';
+                                                break;
+                                            case 3:
+                                                $badge_class = 'badge-info';
+                                                $badge_text = 'PERINGKAT 3';
+                                                break;
+                                        }
                                         ?>
                                         <div class="col-lg-4 col-md-4 col-sm-4 text-center">
                                             <div class="card m-b-20 text-white bg-primary">
                                                 <div class="card-body">
                                                     <div class="row">
+                                                        <div class="col-12 mb-2">
+                                                            <span class="badge <?= $badge_class ?> badge-lg"><?= $badge_text ?></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
                                                         <div class="col-12">
                                                             <img class="rounded-circle shadow" alt="200x200" width="120"
                                                                 src="assets/foto/petugas/<?= $best->foto ?>"
-                                                                title="Skor Akhir <?= $best->total_skor ?>"
+                                                                title="Rata-rata Total: <?= $best->rata_total ?> / 5.00, Responden: <?= $best->jumlah_responden ?>"
                                                                 data-holder-rendered="true">
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <?= $best->nama ?>
+                                                            <strong><?= $best->nama ?></strong>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -188,10 +211,21 @@
                                                             Kepuasan : <?= $best->rata_kepuasan ?> / 5.00
                                                         </div>
                                                     </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <strong>Rata-rata Total: <?= $best->rata_total ?> / 5.00</strong>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <small>Responden: <?= $best->jumlah_responden ?></small>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <?php
+                                        $peringkat++;
                                     }
                                 } else {
                                     ?>
