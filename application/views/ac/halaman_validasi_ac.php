@@ -186,7 +186,7 @@
                             if ($status_validasi == "1") {
                                 ?>
                                 <p class="text-center">Nomor Perkara : <?= $nomor_perkara ?></p>
-                                <p class="text-center">Nomor Akta Cerai : <?= $nomor_perkara ?></p>
+                                <p class="text-center">Nomor Akta Cerai : <?= $nomor_ac ?></p>
                                 <div class="row justify-content-md-center">
                                     <div class="col-lg-8">
                                         <table class="table table-bordered">
